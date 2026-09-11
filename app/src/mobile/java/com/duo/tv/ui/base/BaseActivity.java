@@ -30,25 +30,15 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         enableEdgeToEdge();
-        setContentView(getBinding().getRoot());
-        applyStatusBarStyle();
-        EventBus.getDefault().register(this);
-        initView(savedInstanceState);
-        setBackCallback();
-        initEvent();
-    }
-
-    private void applyStatusBarStyle() {
         int mask = getResources().getConfiguration().uiMode & android.content.res.Configuration.UI_MODE_NIGHT_MASK;
         boolean dark = mask == android.content.res.Configuration.UI_MODE_NIGHT_YES;
         androidx.core.view.WindowInsetsControllerCompat controller = androidx.core.view.WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
         controller.setAppearanceLightStatusBars(!dark);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        applyStatusBarStyle();
+        setContentView(getBinding().getRoot());
+        EventBus.getDefault().register(this);
+        initView(savedInstanceState);
+        setBackCallback();
+        initEvent();
     }
 
     @Override
