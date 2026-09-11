@@ -102,7 +102,7 @@ public class OkHttp {
     }
 
     public static String string(String url) {
-        if (!url.startsWith("http")) return "";
+        if (url == null || !url.startsWith("http")) return "";
         try (Response res = newCall(url).execute()) {
             return res.body() != null ? res.body().string() : "";
         } catch (Exception e) {
@@ -112,7 +112,7 @@ public class OkHttp {
     }
 
     public static String string(String url, Map<String, String> headers) {
-        if (!url.startsWith("http")) return "";
+        if (url == null || !url.startsWith("http")) return "";
         try (Response res = newCall(url, headers).execute()) {
             return res.body() != null ? res.body().string() : "";
         } catch (Exception e) {
@@ -122,34 +122,42 @@ public class OkHttp {
     }
 
     public static Call newCall(String url) {
+        if (url == null || url.isEmpty()) throw new IllegalArgumentException("url is null or empty");
         return client().newCall(new Request.Builder().url(url).build());
     }
 
     public static Call newCall(String url, String tag) {
+        if (url == null || url.isEmpty()) throw new IllegalArgumentException("url is null or empty");
         return client().newCall(new Request.Builder().url(url).tag(tag).build());
     }
 
     public static Call newCall(OkHttpClient client, String url) {
+        if (url == null || url.isEmpty()) throw new IllegalArgumentException("url is null or empty");
         return client.newCall(new Request.Builder().url(url).build());
     }
 
     public static Call newCall(OkHttpClient client, String url, String tag) {
+        if (url == null || url.isEmpty()) throw new IllegalArgumentException("url is null or empty");
         return client.newCall(new Request.Builder().url(url).tag(tag).build());
     }
 
     public static Call newCall(String url, Map<String, String> headers) {
+        if (url == null || url.isEmpty()) throw new IllegalArgumentException("url is null or empty");
         return client().newCall(new Request.Builder().url(url).headers(Headers.of(headers)).build());
     }
 
     public static Call newCall(String url, Map<String, String> headers, ArrayMap<String, String> params) {
+        if (url == null || url.isEmpty()) throw new IllegalArgumentException("url is null or empty");
         return client().newCall(new Request.Builder().url(buildUrl(url, params)).headers(Headers.of(headers)).build());
     }
 
     public static Call newCall(String url, Map<String, String> headers, RequestBody body) {
+        if (url == null || url.isEmpty()) throw new IllegalArgumentException("url is null or empty");
         return client().newCall(new Request.Builder().url(url).headers(Headers.of(headers)).post(body).build());
     }
 
     public static Call newCall(OkHttpClient client, String url, RequestBody body) {
+        if (url == null || url.isEmpty()) throw new IllegalArgumentException("url is null or empty");
         return client.newCall(new Request.Builder().url(url).post(body).build());
     }
 
