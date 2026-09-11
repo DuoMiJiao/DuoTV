@@ -95,18 +95,81 @@ keyPassword=your_password
 ## 项目结构
 
 ```
-├── app/
-│   ├── src/main/          # 共用逻辑（播放器、网络、数据库、服务器）
-│   ├── src/leanback/      # TV 版 UI
-│   ├── src/mobile/        # 手机版 UI
-│   └── build.gradle       # App 构建配置
-├── catvod/                # 网络层、爬虫框架、工具类
-├── quickjs/               # QuickJS JavaScript 引擎
-├── docs/                  # 文档（CONFIG.md、LIVE.md、LOCAL.md、SPIDER.md）
-├── thunder/               # 迅雷下载引擎
-├── tvbus/                 # TVBus P2P 引擎
-├── zlive/                 # 直播引擎
-└── build.gradle           # 项目根构建配置
+├── app/                           # 主应用模块
+│   ├── src/main/                  # 共用逻辑（所有 flavor 共享）
+│   │   ├── java/.../api/          #   配置加载（VodConfig/LiveConfig）、站点 API、EPG/直播源解析
+│   │   ├── java/.../db/           #   Room 数据库（观看历史、收藏、配置、轨道偏好、站点）
+│   │   ├── java/.../player/       #   播放器引擎（ExoPlayer + 弹幕 DanmakuOverlay + 解析任务）
+│   │   ├── java/.../server/       #   本地 HTTP 服务器（NanoHTTPD，token 鉴权，端口 9978-9998）
+│   │   ├── java/.../service/      #   后台播放服务 PlaybackService + DLNA 渲染器
+│   │   ├── java/.../ui/           #   共用 Dialog、Adapter、自定义 View、BaseActivity
+│   │   └── java/.../utils/        #   下载、文件操作、网络请求、权限、通知等工具类
+│   ├── src/leanback/              # Android TV 版 UI（遥控器焦点导航，leanback 库）
+│   │   ├── java/.../ui/activity/  #   HomeActivity、VideoActivity、LiveActivity、SearchActivity 等
+│   │   ├── java/.../ui/dialog/    #   配置、弹幕、字幕、轨道、历史等对话框
+│   │   └── res/                   #   TV 版布局、样式、动画资源
+│   ├── src/mobile/                # 手机/平板版 UI（Material Design + 底部导航）
+│   │   ├── java/.../ui/           #   Activity、Fragment、Dialog、Adapter（含投屏控制）
+│   │   ├── java/.../dlna/         #   DLNA 投屏（设备发现、推送、轮询状态）
+│   │   └── res/                   #   手机版布局、深浅色主题、图标资源
+│   └── build.gradle               # App 构建配置（flavor mobile/leanback、签名、依赖版本）
+│
+├── catvod/                        # CatVod 网络与爬虫框架（核心依赖库）
+│   └── src/main/java/.../catvod/
+│       ├── crawler/               #   Spider 基类、SpiderDebug 日志、爬虫加载器（Jar/JS/PY）
+│       ├── net/                   #   OkHttp 封装（全局 client、拦截器、DNS、代理选择、认证）
+│       ├── bean/                  #   网络请求 Req/响应 Res 数据模型
+│       └── utils/                 #   Path 路径安全、JSON 解析、编码转换、翻译、加密工具
+│
+├── quickjs/                       # QuickJS JavaScript 引擎模块（JS 爬虫运行时）
+│   ├── src/main/java/.../quickjs/
+│   │   ├── crawler/               #   Spider 接口的 JS 实现（加载/执行 JS 爬虫脚本）
+│   │   ├── method/                #   JS→Java 桥接方法（HTTP 请求、AES/RSA/MD5 加密、代理、翻译）
+│   │   └── utils/                 #   连接管理、Crypto 加密、JS 模块加载器
+│   └── src/main/assets/js/lib/    #   内置 JS 库（drpy 引擎、crypto-js、gbk 编码、similarity 相似度）
+│
+├── chaquo/                        # Chaquopy Python 运行时模块（PY 爬虫支持）
+│   ├── requirements.txt           #   Python 依赖（requests、pycryptodome、lxml、beautifulsoup4 等）
+│   └── src/main/java/             #   Python Spider 桥接（Chaquopy 嵌入 CPython）
+│
+├── thunder/                       # 迅雷下载引擎（P2SP + BT + 磁力链接加速）
+│   └── src/main/
+│       ├── java/.../downloadlib/  #   Java 封装（XLDownloadManager 任务管理、参数配置、错误码）
+│       └── jniLibs/               #   迅雷 native SO 库（arm64-v8a + armeabi-v7a）
+│
+├── tvbus/                         # TVBus P2P 直播引擎（去中心化直播源）
+│   └── src/main/java/.../engine/  #   TVCore 直播流加载与播放
+│
+├── zlive/                         # ZLive 直播引擎（另一种 P2P 直播协议）
+│   └── src/main/
+│       ├── java/.../zlive/        #   ZLive 直播流加载器
+│       └── jniLibs/               #   native SO 库（armeabi-v7a）
+│
+├── jianpian/                      # 简片 P2P 下载引擎（ed2k/磁力资源下载）
+│   └── src/main/
+│       ├── java/.../p2p/          #   P2PClass 下载任务接口
+│       └── jniLibs/               #   native SO 库（arm64-v8a + armeabi-v7a）
+│
+├── forcetech/                     # ForceTech 小米电视专用模块（系统级 Binder 接口）
+│   └── src/main/java/.../mitv/    #   LocalBinder 本地服务、MainActivity 入口
+│
+├── hook/                          # 模块占位（AndroidManifest 注册，无实际代码）
+│
+├── docs/                          # 开发与配置文档
+│   ├── CONFIG.md                  #   配置字段完整字典（JSON 格式、站点/直播/解析/壁纸字段）
+│   ├── LIVE.md                    #   直播源格式说明（M3U/TXT/EPG/JSON 四种格式）
+│   ├── LOCAL.md                   #   本地 HTTP API 完整端点文档（播放控制/推送/文件/同步/缓存）
+│   └── SPIDER.md                  #   爬虫开发指南（Java/JS/Python 接口定义、方法签名、返回格式）
+│
+├── other/                         # 辅助资源
+│   ├── image/                     #   App 图标、Logo、截图素材
+│   └── tools/                     #   构建辅助脚本（BFG 清理、cleaner 批处理）
+│
+├── build.gradle                   # 项目根构建配置（Android Gradle Plugin、仓库源）
+├── settings.gradle                # 模块注册表（包含所有子模块声明）
+├── gradle.properties              # Gradle 属性（JVM 内存、AndroidX、版本号）
+├── gradlew / gradlew.bat          # Gradle Wrapper（自动下载 Gradle 8.14.2）
+└── .gitignore                     # Git 忽略规则（build/、签名文件、local.properties、APK）
 ```
 
 ## 安全说明
