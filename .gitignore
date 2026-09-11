@@ -1,0 +1,34 @@
+# IDE
+.idea/
+.vscode/
+.settings/
+*.iml
+
+# Gradle
+.gradle/
+build/
+*/build/
+
+# Signing
+*.jks
+*.keystore
+local.properties
+
+# Release outputs
+/Release/
+*.apk
+*.aab
+
+# OS
+.DS_Store
+Thumbs.db
+
+# GitHub
+.github/
+
+# Logs
+*.log
+build.log
+
+# Backup files
+backup_original_ui/

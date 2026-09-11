@@ -1,0 +1,28 @@
+<resources>
+
+    <color name="primary">#3D7DFA</color>
+    <color name="primaryDark">#2F6AE0</color>
+    <color name="accent">#3D7DFA</color>
+    <color name="indicator">#3D7DFA</color>
+    <color name="duo_bg">#F6F6F8</color>
+    <color name="duo_card">#FFFFFF</color>
+    <color name="duo_on_primary">#FFFFFF</color>
+    <!--
+        【修复·P2 对比度回归】nav_inactive 原为 #85858B：在浅色导航底（duo_bg #F6F6F8）上
+        对比度仅约 3.40:1，低于 WCAG 正文 4.5:1 门槛（旧版本是 #44464F，约 8.7:1）。
+        这里加深到 #5A5A62（约 6.3:1）；夜间值在 values-night/colors.xml 中单独维护。
+    -->
+    <color name="nav_inactive">#5A5A62</color>
+
+    <color name="duo_container">#E9F0FF</color>
+    <!--
+        【新增·P2 chip 选中态对比度】选中 chip 原本直接用 primary(#3D7DFA) 压在
+        duo_container(#E9F0FF) 上，对比度约 3.33:1（旧版本约 5.02:1，属回归）。
+        这里补一个更深的品牌色专用于"浅色底上的品牌色文字"（约 5.6:1）。
+    -->
+    <color name="duo_on_container">#1F51C4</color>
+    <color name="duo_panel">#E6FFFFFF</color>
+    <color name="duo_text_1">#E6000000</color>
+    <color name="duo_text_2">#85858B</color>
+    <color name="duo_divider">#14000000</color>
+</resources>

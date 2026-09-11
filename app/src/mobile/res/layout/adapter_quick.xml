@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:background="@drawable/shape_item"
+    android:orientation="vertical">
+
+    <!--
+        【修复·P1 浅色模式白字不可读】site/remark 原来是 @color/white_90 / @color/white_80，
+        压在白色卡片（shape_item = @color/duo_card #FFFFFF）上，浅色模式对比度约 1.00:1（看不见）。
+        改为随主题的次级文字色 duo_text_2（浅色 #85858B / 夜间 #98989F）。
+    -->
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="14sp"
+        tools:text="蜘蛛人" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/site"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:singleLine="true"
+        android:textColor="@color/duo_text_2"
+        android:textSize="12sp"
+        tools:text="泥巴"
+        tools:visibility="visible" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/remark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:singleLine="true"
+        android:textColor="@color/duo_text_2"
+        android:textSize="12sp"
+        tools:text="1080p" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

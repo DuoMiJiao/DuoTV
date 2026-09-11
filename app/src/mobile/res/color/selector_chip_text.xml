@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+        【修复·P2 对比度回归】选中态原为 @color/primary(#3D7DFA)，压在选中 chip 底色
+        duo_container 上只有约 3.33:1；改用专为"浅色底品牌色文字"准备的 duo_on_container。
+        未选中态保持随主题的 ?attr/colorOnSurface。
+    -->
+    <item android:color="@color/duo_on_container" android:state_activated="true" />
+    <item android:color="?attr/colorOnSurface" />
+</selector>

@@ -1,0 +1,18 @@
+<resources>
+
+    <color name="primary">#5B8DFF</color>
+    <color name="primaryDark">#000000</color>
+    <color name="accent">#5B8DFF</color>
+    <color name="indicator">#5B8DFF</color>
+    <color name="duo_bg">#000000</color>
+    <color name="duo_card">#1C1C1E</color>
+    <color name="nav_inactive">#98989F</color>
+
+    <color name="duo_container">#2C2C2E</color>
+    <!-- 夜间：深底上的品牌色文字沿用亮一档的 primary，对比度足够 -->
+    <color name="duo_on_container">#9DB6FF</color>
+    <color name="duo_panel">#E61C1C1E</color>
+    <color name="duo_text_1">#F5F5F5</color>
+    <color name="duo_text_2">#98989F</color>
+    <color name="duo_divider">#1FFFFFFF</color>
+</resources>
